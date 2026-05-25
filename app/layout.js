@@ -96,8 +96,7 @@ export default function RootLayout({ children }) {
             min-h-screen 
             flex 
             flex-col 
-            bg-white 
-            text-gray-900 
+           bg-[#0B1120] text-white overflow-x-hidden 
             font-sans
           `}
         >
@@ -122,20 +121,17 @@ export default function RootLayout({ children }) {
           <Header />
           <Toaster />
           
-          <main 
-            id="main-content" 
-            className="
-              flex-grow 
-              pt-16 
-              sm:pt-20 
-              max-w-7xl 
-              mx-auto 
-              w-full 
-              px-4 
-              sm:px-6 
-              lg:px-8
-            "
-          >
+         <main 
+  id="main-content" 
+  className="
+    flex-grow
+    pt-16
+    sm:pt-20
+    w-full
+    min-h-screen
+    overflow-x-hidden
+  "
+>
             {children}
           </main>
           

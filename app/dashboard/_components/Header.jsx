@@ -1,6 +1,7 @@
 "use client";
+
 import { SignInButton, UserButton, SignedOut, SignedIn } from "@clerk/nextjs";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Bot } from "lucide-react";
@@ -8,44 +9,21 @@ import { Menu, X, Bot } from "lucide-react";
 function Header() {
   const path = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
-  const controlNavbar = useCallback(() => {
-    if (typeof window !== "undefined") {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-
-      setLastScrollY(currentScrollY);
-    }
-  }, [lastScrollY]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("scroll", controlNavbar);
-      return () => window.removeEventListener("scroll", controlNavbar);
-    }
-  }, [controlNavbar]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
-    
+
     // Prevent body scrolling when menu is open
     if (!isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
   };
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
-    document.body.style.overflow = 'unset';
+    document.body.style.overflow = "unset";
   };
 
   const navItems = [
@@ -57,31 +35,75 @@ function Header() {
 
   return (
     <>
+      {/* HEADER */}
       <header
-        className={`
-          fixed top-0 left-0 right-0 
-          flex justify-between items-center 
-          p-4 sm:p-5 
-          bg-white/90 backdrop-blur-md 
-          shadow-md z-50 
-          transition-all duration-300 ease-in-out
-          ${isVisible ? "translate-y-0" : "-translate-y-full"}
-        `}
+        className="
+          fixed
+          top-0
+          left-0
+          right-0
+          w-full
+          z-50
+          flex
+          justify-between
+          items-center
+          px-6
+          md:px-10
+          lg:px-16
+          py-4
+          bg-[#0B1120]/80
+          backdrop-blur-xl
+          border-b
+          border-white/10
+          shadow-[0_8px_30px_rgb(0,0,0,0.12)]
+          transition-all
+          duration-300
+        "
       >
-        {/* Logo */}
-        <Link 
-          href="/" 
-          className="flex items-center gap-2"
+        {/* LOGO */}
+        <Link
+          href="/"
+          className="flex items-center gap-3"
           aria-label="MockMate AI Home"
           onClick={closeMobileMenu}
         >
-          <Bot className="text-indigo-600" size={28} />
-          <span className="text-xl sm:text-2xl font-bold text-indigo-600">MockMate AI</span>
+          <div
+            className="
+              w-11
+              h-11
+              rounded-2xl
+              bg-gradient-to-r
+              from-cyan-500
+              to-purple-500
+              flex
+              items-center
+              justify-center
+              shadow-lg
+              shadow-cyan-500/20
+            "
+          >
+            <Bot className="text-white" size={22} />
+          </div>
+
+          <span
+            className="
+              text-2xl
+              font-black
+              bg-gradient-to-r
+              from-cyan-400
+              via-blue-500
+              to-purple-500
+              bg-clip-text
+              text-transparent
+            "
+          >
+            MockMate AI
+          </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav 
-          className="hidden md:flex gap-4 lg:gap-6"
+        {/* DESKTOP NAVIGATION */}
+        <nav
+          className="hidden md:flex items-center gap-3 lg:gap-5"
           aria-label="Main Navigation"
         >
           {navItems.map((item) => (
@@ -95,67 +117,101 @@ function Header() {
           ))}
         </nav>
 
-        {/* Mobile Menu Toggle */}
+        {/* MOBILE MENU BUTTON */}
         <div className="md:hidden">
           <button
             onClick={toggleMobileMenu}
-            className="focus:outline-none text-gray-600 hover:text-indigo-600 transition-colors"
+            className="
+              text-gray-300
+              hover:text-cyan-400
+              transition-all
+              duration-300
+            "
             aria-label={isMobileMenuOpen ? "Close Menu" : "Open Menu"}
             aria-expanded={isMobileMenuOpen}
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
         </div>
 
-        {/* Desktop Authentication */}
+        {/* DESKTOP AUTH */}
         <div className="hidden md:block">
           <SignedOut>
             <SignInButton mode="modal">
-              <button 
+              <button
                 className="
-                  px-4 py-2 
-                  bg-indigo-600 text-white 
-                  rounded-md 
-                  hover:bg-indigo-700 
-                  transition-colors
-                  focus:outline-none 
-                  focus:ring-2 
-                  focus:ring-indigo-500 
-                  focus:ring-offset-2
+                  relative
+                  inline-flex
+                  items-center
+                  justify-center
+                  overflow-hidden
+                  rounded-2xl
+                  px-5
+                  py-2.5
+                  font-semibold
+                  text-white
+                  transition-all
+                  duration-300
+                  hover:scale-105
+                  active:scale-95
                 "
               >
-                Sign In
+                <span
+                  className="
+                    absolute
+                    inset-0
+                    bg-gradient-to-r
+                    from-cyan-500
+                    via-blue-500
+                    to-purple-500
+                  "
+                ></span>
+
+                <span className="relative z-10">Sign In</span>
               </button>
             </SignInButton>
           </SignedOut>
+
           <SignedIn>
-            <UserButton 
-              afterSignOutUrl="/" 
+            <UserButton
+              afterSignOutUrl="/"
               appearance={{
                 elements: {
-                  userButtonAvatarBox: "w-10 h-10",
+                  userButtonAvatarBox:
+                    "w-11 h-11 border border-white/10 shadow-lg",
                 },
-              }} 
+              }}
             />
           </SignedIn>
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
+      {/* MOBILE MENU */}
       {isMobileMenuOpen && (
-        <div 
+        <div
           className="
-            fixed inset-0 top-0 
-            bg-white z-40 md:hidden 
+            fixed
+            inset-0
+            top-0
+            bg-[#0B1120]/95
+            backdrop-blur-2xl
+            z-40
+            md:hidden
             overflow-hidden
-            pt-16
+            pt-24
           "
           role="dialog"
           aria-modal="true"
           aria-label="Mobile Navigation Menu"
         >
-          <div className="h-full overflow-y-auto pb-16">
-            <nav className="space-y-6 p-6">
+          {/* Background Glow */}
+          <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-cyan-500/20 rounded-full blur-3xl"></div>
+
+          <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-purple-500/20 rounded-full blur-3xl"></div>
+
+          <div className="relative z-10 h-full overflow-y-auto pb-16">
+            <nav className="space-y-5 p-6">
+
               {navItems.map((item) => (
                 <NavItem
                   key={item.href}
@@ -167,40 +223,61 @@ function Header() {
                 />
               ))}
 
-              {/* Mobile Authentication */}
-              <div className="pt-6 border-t">
+              {/* MOBILE AUTH */}
+              <div className="pt-8 border-t border-white/10">
+
                 <SignedOut>
                   <SignInButton mode="modal">
-                    <button 
+                    <button
                       className="
-                        w-full px-4 py-2 
-                        bg-indigo-600 text-white 
-                        rounded-md 
-                        hover:bg-indigo-700 
-                        transition-colors
-                        focus:outline-none 
-                        focus:ring-2 
-                        focus:ring-indigo-500 
-                        focus:ring-offset-2
+                        w-full
+                        relative
+                        inline-flex
+                        items-center
+                        justify-center
+                        overflow-hidden
+                        rounded-2xl
+                        px-5
+                        py-3
+                        font-semibold
+                        text-white
+                        transition-all
+                        duration-300
                       "
                       onClick={closeMobileMenu}
                     >
-                      Sign In
+                      <span
+                        className="
+                          absolute
+                          inset-0
+                          bg-gradient-to-r
+                          from-cyan-500
+                          via-blue-500
+                          to-purple-500
+                        "
+                      ></span>
+
+                      <span className="relative z-10">
+                        Sign In
+                      </span>
                     </button>
                   </SignInButton>
                 </SignedOut>
+
                 <SignedIn>
                   <div className="flex justify-center">
-                    <UserButton 
-                      afterSignOutUrl="/" 
+                    <UserButton
+                      afterSignOutUrl="/"
                       appearance={{
                         elements: {
-                          userButtonAvatarBox: "w-12 h-12 mx-auto",
+                          userButtonAvatarBox:
+                            "w-14 h-14 mx-auto border border-white/10",
                         },
-                      }} 
+                      }}
                     />
                   </div>
                 </SignedIn>
+
               </div>
             </nav>
           </div>
@@ -212,24 +289,25 @@ function Header() {
 
 function NavItem({ path, href, label, mobile, onClick }) {
   return (
-    <Link 
-      href={href} 
+    <Link
+      href={href}
       onClick={onClick}
       className={`
-        block 
-        transition-all duration-300 ease-in-out 
-        cursor-pointer 
-        rounded-lg 
-        focus:outline-none 
-        focus:ring-2 
-        focus:ring-indigo-500
-        ${mobile
-          ? "w-full text-lg py-3 text-center"
-          : "px-3 py-2 hover:bg-indigo-100 hover:text-indigo-600"
+        block
+        transition-all
+        duration-300
+        cursor-pointer
+        rounded-2xl
+        ${
+          mobile
+            ? "w-full text-lg py-4 text-center"
+            : "px-5 py-2.5"
         }
-        ${path === href
-          ? "text-indigo-600 font-bold bg-indigo-100"
-          : "text-gray-700 hover:text-indigo-600"
+
+        ${
+          path === href
+            ? "bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-cyan-300 border border-cyan-500/20"
+            : "text-gray-300 hover:bg-white/10 hover:text-cyan-300"
         }
       `}
     >
