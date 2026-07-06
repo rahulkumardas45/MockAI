@@ -3,6 +3,7 @@ import { Lightbulb, Volume2 } from 'lucide-react'
 import React from 'react'
 const QuestionsSection = ({mockInterviewQuestion,activeQuestionIndex}) => {
   console.log("🚀 ~ file: QuestionsSection.jsx:4 ~ QuestionsSection ~ mockInterviewQuestion:", mockInterviewQuestion);
+  
   const textToSpeach=(text)=>{
 if('speechSynthesis' in window){
     const speech = new SpeechSynthesisUtterance(text);
@@ -11,6 +12,9 @@ if('speechSynthesis' in window){
     alert("Sorry, your browser does not support text to speech")
 }
   }
+
+
+
   return mockInterviewQuestion && (
     <div className='p-5 border rounded-lg my-10'>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>

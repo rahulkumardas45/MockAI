@@ -25,8 +25,8 @@ const geistMono = localFont({
 export const metadata = {
   metadataBase: new URL('https://www.mockmateai.com'),
   title: {
-    default: 'MockMate AI - AI-Powered Interview Preparation',
-    template: '%s | MockMate AI'
+    default: 'Mock AI - AI-Powered Interview Preparation',
+    template: '%s | Mock AI'
   },
   description: 'Elevate your interview skills with AI-powered mock interviews. Get personalized coaching, real-time feedback, and boost your confidence.',
   keywords: [
@@ -36,32 +36,32 @@ export const metadata = {
     'career development', 
     'job interview help'
   ],
-  authors: [{ name: 'MockMate AI Team' }],
-  creator: 'MockMate AI',
-  publisher: 'MockMate AI',
+  authors: [{ name: ' Team' }],
+  creator: 'Mock AI',
+  publisher: 'Mock AI',
   
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://mockmateai-eta.vercel.app/',
-    title: 'MockMate AI - AI-Powered Interview Preparation',
+    title: 'Mock AI - AI-Powered Interview Preparation',
     description: 'Elevate your interview skills with AI-powered mock interviews. Get personalized coaching, real-time feedback, and boost your confidence.',
-    siteName: 'MockMate AI',
+    siteName: 'Mock AI',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'MockMate AI - Revolutionizing Interview Preparation'
+        alt: 'MockAI - Revolutionizing Interview Preparation'
       }
     ]
   },
   
   twitter: {
     card: 'summary_large_image',
-    title: 'MockMate AI - AI-Powered Interview Preparation',
+    title: 'Mock AI - AI-Powered Interview Preparation',
     description: 'Elevate your interview skills with AI-powered mock interviews. Get personalized coaching, real-time feedback, and boost your confidence.',
-    creator: '@MockMateAI',
+    creator: '@MockAI',
     images: ['/twitter-image.png']
   },
   

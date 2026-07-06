@@ -64,7 +64,7 @@ function Header() {
         <Link
           href="/"
           className="flex items-center gap-3"
-          aria-label="MockMate AI Home"
+          aria-label="Mock AI Home"
           onClick={closeMobileMenu}
         >
           <div
@@ -97,7 +97,7 @@ function Header() {
               text-transparent
             "
           >
-            MockMate AI
+            Mock AI
           </span>
         </Link>
 
