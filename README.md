@@ -1,83 +1,365 @@
 
-# Full Stack AI Mock Interview App
+# MockAI
 
-**Welcome to the Full Stack AI Mock Interview App!**  
-This project is designed to help developers enhance their skills through AI-driven mock interviews, providing real-time feedback to simulate a realistic interview experience.# AI Resume Analyzer & Mock Interview Platform
+An AI-powered full-stack career preparation platform that helps users **analyze and improve their resumes, optimize ATS compatibility, practice technical and behavioral interviews, and receive personalized AI-powered feedback**.
 
-An AI-powered full-stack interview preparation and resume analysis platform built using Next.js, Gemini AI, PostgreSQL, Drizzle ORM, and Clerk Authentication.
-
-The platform helps users improve interview performance through AI-generated mock interviews, ATS-based resume analysis, personalized feedback, and real-time interview evaluation.
+Built with **Next.js, React, Gemini AI, PostgreSQL, Drizzle ORM, Clerk Authentication, Tailwind CSS, and RAG-based resume analysis**.
 
 ---
 
-## Features
+## 🚀 Overview
 
-### AI Mock Interviews
+The **AI Resume Analyzer & Mock Interview Platform** combines two important career-preparation workflows into one application:
 
-* Generate role-specific interview questions using Gemini AI
-* Technical and behavioral interview simulation
-* AI-generated feedback and ratings
-
-### Resume Analyzer
-
-* Upload PDF/DOCX resumes
-* ATS score generation
-* Skill extraction and keyword analysis
-* Resume improvement suggestions
-
-### Personalized Dashboard
-
-* Track interview history
-* View performance analytics
-* Monitor skill progress
-
-### Authentication & Security
-
-* Secure authentication using Clerk
-* Protected user dashboard
-* Session management
-
-### Modern Full Stack Architecture
-
-* Responsive UI with Tailwind CSS
-* PostgreSQL database with Drizzle ORM
-* Server-side rendering using Next.js
+- 📄 **AI Resume Analyzer** — Analyze a resume against a target job description and receive ATS scores, skill matching, keyword analysis, and improvement suggestions.
+- 🎤 **AI Mock Interview** — Practice role-specific technical and behavioral interviews with AI-generated questions and receive AI-powered evaluation and feedback.
+- 📊 **Personalized Dashboard** — Track interview history, resume analysis, scores, and performance.
+- 🔐 **Authentication** — Secure user authentication and protected application areas using Clerk.
+- 🧠 **RAG-Based Resume Analysis** — Processes resume information into relevant sections/context before AI analysis.
 
 ---
 
-## Tech Stack
+# ✨ Features
 
-### Frontend
+## 📄 AI Resume Analyzer
 
-* Next.js
-* React.js
-* Tailwind CSS
+The Resume Analyzer helps candidates understand how well their resume matches a target job.
 
-### Backend
+### Key capabilities
 
-* Node.js
-* Drizzle ORM
-* PostgreSQL (Neon DB)
-
-### AI Integration
-
-* Gemini AI API
-* Prompt Engineering
-
-### Authentication
-
-* Clerk Authentication
+- 📤 Resume upload
+- 📑 Resume text processing
+- 🎯 Job-description based analysis
+- 📊 ATS score
+- 🔎 Keyword matching
+- 🧠 Skill alignment analysis
+- 💼 Experience relevance analysis
+- 📝 ATS formatting analysis
+- 📈 Quantified impact analysis
+- ❌ Identification of missing keywords
+- 💡 Resume improvement suggestions
+- 📋 Detailed score breakdown
+- 🤖 AI-powered resume recommendations
 
 ---
+
+## 🧠 RAG-Based Resume Analysis
+
+The application uses a RAG-oriented approach to process resume content before generating the final AI analysis.
+
+The resume analysis pipeline is designed to break the resume into meaningful information and provide relevant context to the AI model.
+
+### Resume Analysis Pipeline
+
+
+                    Resume Upload
+                         │
+                         ▼
+                 Resume Text Extraction
+                         │
+                         ▼
+                  Text Normalization
+                         │
+                         ▼
+                Resume Section Chunking
+                         │
+                         ▼
+                 Relevant Context
+                         │
+                         ▼
+                    Gemini AI
+                         │
+                         ▼
+                Resume Evaluation
+                         │
+          ┌──────────────┼──────────────┐
+          ▼              ▼              ▼
+      ATS Score      Skill Match    Keywords
+          │              │              │
+          └──────────────┼──────────────┘
+                         ▼
+                Improvement Suggestions
+
 
 ## System Architecture
+                         ┌──────────────────┐
+                         │       User       │
+                         └────────┬─────────┘
+                                  │
+                                  ▼
+                    ┌─────────────────────────┐
+                    │     Next.js Frontend    │
+                    │   React + Tailwind CSS  │
+                    └────────────┬────────────┘
+                                 │
+                                 ▼
+                    ┌─────────────────────────┐
+                    │       API Routes        │
+                    │         Next.js         │
+                    └────────────┬────────────┘
+                                 │
+                 ┌───────────────┼────────────────┐
+                 │               │                │
+                 ▼               ▼                ▼
+        ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+        │  Gemini AI   │ │ RAG Analyzer │ │ PostgreSQL   │
+        │              │ │              │ │              │
+        │ AI Analysis  │ │ Resume       │ │ User Data    │
+        │ Interview AI │ │ Processing   │ │ Interviews   │
+        └──────────────┘ └──────────────┘ └──────────────┘
+                                                 │
+                                                 ▼
+                                         ┌──────────────┐
+                                         │ Drizzle ORM  │
+                                         └──────────────┘
+
+                         Authentication
+                               │
+                               ▼
+                         Clerk Auth
+
+# 🛠️ Tech Stack
+
+## 🎨 Frontend
+
+- **Next.js** – Full-stack React framework
+- **React.js** – Component-based UI development
+- **Tailwind CSS** – Responsive and modern styling
+- **Responsive Design** – Mobile, tablet, and desktop support
+- **Dark / Light Mode** – Theme support
+
+## ⚙️ Backend
+
+- **Next.js API Routes** – Backend API and server-side endpoints
+- **Node.js** – Server-side JavaScript runtime
+- **Server-Side Processing** – Secure handling of application logic and AI requests
+
+## 🗄️ Database
+
+- **PostgreSQL** – Relational database
+- **Neon PostgreSQL** – Serverless PostgreSQL database platform
+- **Drizzle ORM** – Type-safe database queries and schema management
+
+## 🤖 AI & Generative AI
+
+- **Google Gemini AI** – AI-powered analysis and content generation
+- **Prompt Engineering** – Structured prompts for reliable AI responses
+- **Generative AI** – Intelligent resume and interview analysis
+- **AI Resume Analysis** – Automated resume evaluation and insights
+- **ATS Resume Scoring** – Resume compatibility and scoring
+- **AI Interview Question Generation** – Personalized interview questions
+- **AI Answer Evaluation** – AI-powered answer assessment and feedback
+
+## 🧠 RAG & NLP
+
+- **Retrieval-Augmented Generation (RAG)** – Context-aware AI analysis
+- **Resume Text Extraction** – Extracting structured content from resumes
+- **Text Normalization** – Cleaning and standardizing extracted text
+- **Semantic Resume Chunking** – Breaking resumes into meaningful sections
+- **Relevant Context Retrieval** – Supplying relevant resume information to the AI model
+- **Context-Aware Analysis** – Generating responses based on retrieved resume content
+
+## 🔐 Authentication
+
+- **Clerk** – User authentication and account management
+
+## 🚀 Deployment & Infrastructure
+
+- **Vercel** – Application deployment and hosting
+- **Neon PostgreSQL** – Production database infrastructure
+
+## 🧰 Development Tools
+
+- **Git** – Version control
+- **GitHub** – Source code hosting and collaboration
+- **npm** – Package and dependency management
+
+
+
+## 📁 Project Structure
 
 ```text
-User → Next.js Frontend → API Routes → Gemini AI / PostgreSQL
+AI-Resume-Analyzer-and-Mock-Interview/
+│
+├── app/
+│   ├── (auth)/
+│   │   ├── sign-in/
+│   │   └── sign-up/
+│   │
+│   ├── api/
+│   │   └── ...
+│   │
+│   ├── dashboard/
+│   │
+│   ├── resume-analyzer/
+│   │
+│   ├── about-us/
+│   ├── how-it-works/
+│   ├── layout.js
+│   ├── page.js
+│   └── not-found.js
+│
+├── components/
+│   └── ...
+│
+├── lib/
+│   ├── db.js
+│   ├── GeminiAIModal.js
+│   ├── ragAnalyzer.js
+│   └── schema.js
+│
+├── public/
+│   └── ...
+│
+├── .env.example
+├── .gitignore
+├── drizzle.config.js
+├── jsconfig.json
+├── components.json
+├── package.json
+└── README.md
 ```
 
----
 
+## 🔥 Resume Analyzer Architecture
+
+The Resume Analyzer uses a **RAG-based AI pipeline** to process uploaded resumes, extract meaningful information, and generate structured insights using **Google Gemini AI**.
+
+### 🧠 Core RAG & Analysis Logic
+
+#### `lib/ragAnalyzer.js`
+
+The core module responsible for resume processing, contextual analysis, and evaluation.
+
+**Responsibilities:**
+
+- 📄 Resume text processing
+- 🧹 Text normalization and cleaning
+- ✂️ Semantic resume section chunking
+- 🔎 Relevant context identification
+- 🧠 RAG-based contextual analysis
+- 📊 ATS score calculation
+- 🛠️ Skill alignment analysis
+- 💼 Experience relevance analysis
+- 🔑 Keyword matching
+- 📈 Quantified impact analysis
+- 💡 Resume improvement suggestions
+
+### 🤖 Gemini AI Integration
+
+#### `lib/GeminiAIModal.js`
+
+Handles communication with the **Google Gemini AI API** and manages AI-powered resume analysis and content generation.
+
+**Responsibilities:**
+
+- Gemini model integration
+- Prompt construction
+- AI response generation
+- Structured resume analysis
+- Interview question generation
+- AI-powered answer evaluation
+
+### 🎨 Resume Analyzer UI
+
+#### `app/dashboard/resume-analyzer/`
+
+Contains the frontend interface for the Resume Analyzer.
+
+**Responsibilities:**
+
+- Resume upload interface
+- Resume analysis workflow
+- ATS score visualization
+- Skill and keyword insights
+- Improvement recommendations
+- AI-generated analysis display
+
+### ⚙️ Backend API Layer
+
+#### `app/api/`
+
+Contains the backend API routes responsible for connecting the frontend with the AI and database layers.
+
+**Responsibilities:**
+
+- API request handling
+- Resume processing requests
+- Gemini AI communication
+- Database operations
+- Server-side business logic
+
+### 🗄️ Database Layer
+
+#### `lib/db.js`
+
+Handles database connectivity and provides the database instance used throughout the application.
+
+#### `lib/schema.js`
+
+Contains the **Drizzle ORM database schema definitions** for application data.
+
+**Responsibilities:**
+
+- Database table definitions
+- Column and relationship definitions
+- Type-safe database structure
+- Data persistence configuration
+
+### 🔄 Resume Analysis Flow
+
+```text
+Resume Upload
+      │
+      ▼
+Resume Text Extraction
+      │
+      ▼
+Text Normalization
+      │
+      ▼
+Resume Section Chunking
+      │
+      ▼
+Relevant Context
+      │
+      ▼
+Gemini AI Analysis
+      │
+      ▼
+┌─────┴─────────────┬──────────────┐
+▼                   ▼              ▼
+ATS Score       Skill Match    Keyword Analysis
+│                   │              │
+└───────────────────┴──────────────┘
+                    │
+                    ▼
+        Improvement Suggestions
+```
+
+## 🎤 AI Mock Interview Flow
+```text
+User Selects Job Role
+        │
+        ▼
+Interview Configuration
+        │
+        ▼
+Gemini AI Generates Questions
+        │
+        ▼
+User Answers
+        │
+        ▼
+AI Evaluates Answer
+        │
+        ▼
+Score + Feedback
+        │
+        ▼
+Performance Tracking
+
+```
 ## Environment Variables
 
 Create a `.env.local` file:
