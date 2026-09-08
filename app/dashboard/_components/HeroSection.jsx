@@ -1,208 +1,161 @@
 'use client'
 
-import { useState } from 'react'
+import React from 'react'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { 
+  Sparkles, 
+  Bot, 
+  ArrowRight, 
+  Mic, 
+  ShieldCheck, 
+  CheckCircle2, 
+  Zap, 
+  Play,
+  Award,
+  Users,
+  BarChart3
+} from 'lucide-react'
 
 export default function HeroSection() {
   return (
-    <div className="relative min-h-screen flex items-center overflow-hidden bg-[#0B1120]">
+    <div className="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-8 pb-16">
+      {/* Background Ambient Glows */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-gradient-to-tr from-cyan-500/10 via-indigo-600/10 to-purple-600/10 dark:from-cyan-500/20 dark:via-indigo-600/15 dark:to-purple-600/20 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" />
 
-      {/* Animated Background Glow */}
-      <div className="absolute top-[-200px] left-[-100px] w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
-
-      <div className="absolute bottom-[-200px] right-[-100px] w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-
-      {/* Grid Background */}
-      <div
-        className="
-          absolute
-          inset-0
-          w-full
-          h-full
-          opacity-30
-          bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px)]
-          bg-[size:50px_50px]
-        "
-      ></div>
-
-      <div className="relative isolate px-6 pt-14 lg:px-8 w-full">
-
-        {/* Top Gradient */}
-        <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
-          <div
-            style={{
-              clipPath:
-                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-            }}
-            className="
-              relative
-              left-[calc(50%+3rem)]
-              aspect-[1155/678]
-              w-[36.125rem]
-              -translate-x-1/2
-              bg-gradient-to-tr
-              from-cyan-500
-              to-purple-500
-              opacity-30
-              sm:left-[calc(50%+36rem)]
-              sm:w-[72.1875rem]
-              animate-pulse
-            "
-          />
-        </div>
-
-        <div className="mx-auto max-w-4xl py-16 sm:py-24 lg:py-20">
-
-          {/* Badge */}
-          <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-            <div className="
-              relative
-              rounded-full
-              px-5
-              py-2
-              text-sm
-              leading-6
-              text-cyan-300
-              border
-              border-cyan-500/20
-              bg-white/5
-              backdrop-blur-xl
-              hover:border-cyan-400/40
-              transition-all
-              duration-300
-            ">
-              ✨ How to use this AI interview mocker.
-
-              <a
-                href="/how-it-works"
-                className="font-semibold text-white ml-2 hover:text-cyan-300 transition"
-              >
-                <span aria-hidden="true" className="absolute inset-0" />
-                Read more →
-              </a>
-            </div>
-          </div>
-
-          {/* Main Content */}
-          <div className="text-center animate-fadeIn">
-
-            <h1 className="
-              text-4xl
-              font-black
-              tracking-tight
-              text-white
-              sm:text-6xl
-              leading-tight
-            ">
-              Your Personal
-
-              <span className="
-                block
-                mt-2
-                bg-gradient-to-r
-                from-cyan-400
-                via-blue-500
-                to-purple-500
-                bg-clip-text
-                text-transparent
-              ">
-                AI Interview Coach
-              </span>
-            </h1>
-
-            <p className="
-              mt-6
-              text-lg
-              leading-8
-              text-gray-300
-              sm:text-xl
-            ">
-              Double your chances of landing that job offer with our AI-powered interview prep
-            </p>
-
-            {/* Buttons */}
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-
-              <a
-                href="/dashboard"
-                className="
-                  relative
-                  inline-flex
-                  items-center
-                  justify-center
-                  overflow-hidden
-                  rounded-2xl
-                  px-6
-                  py-3
-                  text-sm
-                  font-semibold
-                  text-white
-                  transition-all
-                  duration-300
-                  hover:scale-105
-                "
-              >
-
-                <span className="
-                  absolute
-                  inset-0
-                  bg-gradient-to-r
-                  from-cyan-500
-                  via-blue-500
-                  to-purple-500
-                "></span>
-
-                <span className="relative z-10">
-                  Get started
-                </span>
-
-              </a>
-
-              <a
-                href="/dashboard"
-                className="
-                  text-sm
-                  font-semibold
-                  leading-6
-                  text-gray-200
-                  hover:text-cyan-300
-                  transition-all
-                  duration-300
-                "
-              >
-                Learn more →
-              </a>
-
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Gradient */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 -z-10 transform-gpu overflow-hidden blur-3xl"
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center">
+        {/* Top Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-pill border border-cyan-500/30 text-xs sm:text-sm font-semibold text-cyan-700 dark:text-cyan-300 mb-8 shadow-sm dark:shadow-lg dark:shadow-cyan-500/10 hover:border-cyan-500/50 transition-colors"
         >
-          <div
-            style={{
-              clipPath:
-                'polygon(24% 0%, 100% 0%, 76% 100%, 0% 100%)',
-            }}
-            className="
-              relative
-              left-[calc(50%+3rem)]
-              aspect-[1155/678]
-              w-[36.125rem]
-              -translate-x-1/2
-              bg-gradient-to-tr
-              from-purple-500
-              to-cyan-500
-              opacity-30
-              sm:left-[calc(50%+36rem)]
-              sm:w-[72.1875rem]
-              animate-pulse
-            "
-          />
-        </div>
+          <span className="flex h-2 w-2 rounded-full bg-cyan-500 dark:bg-cyan-400 animate-ping" />
+          <Sparkles className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+          <span>Next-Gen AI Interview Simulation Engine 2.0</span>
+        </motion.div>
 
+        {/* Main Heading */}
+        <motion.h1
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 dark:text-white max-w-5xl mx-auto leading-[1.15]"
+        >
+          Ace Your Next Interview with{' '}
+          <span className="gradient-text-ai block sm:inline">
+            Intelligent AI Coaching
+          </span>
+        </motion.h1>
+
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-6 text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed font-normal"
+        >
+          Experience realistic, real-time mock interviews customized to your job role and tech stack. 
+          Practice speaking, receive instant AI scoring, and unlock deep actionable feedback.
+        </motion.p>
+
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5"
+        >
+          <Link
+            href="/dashboard"
+            className="w-full sm:w-auto relative group overflow-hidden rounded-2xl p-[2px] transition-transform active:scale-95 shadow-xl shadow-cyan-500/15"
+          >
+            <span className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 rounded-2xl animate-shimmer" />
+            <span className="relative flex items-center justify-center gap-3 px-8 py-4 rounded-[14px] bg-[#070B14] text-white font-bold text-base transition-colors group-hover:bg-[#070B14]/85">
+              <Zap className="w-5 h-5 text-cyan-400" />
+              <span>Start Free AI Interview</span>
+              <ArrowRight className="w-5 h-5 text-cyan-400 group-hover:translate-x-1 transition-transform" />
+            </span>
+          </Link>
+
+          <Link
+            href="/how-it-works"
+            className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl glass-card text-slate-800 dark:text-slate-200 font-semibold text-base hover:text-cyan-600 dark:hover:text-white hover:border-cyan-500/40 transition-all shadow-sm"
+          >
+            <Play className="w-4 h-4 text-purple-600 dark:text-purple-400 fill-purple-600/20 dark:fill-purple-400/30" />
+            <span>See How It Works</span>
+          </Link>
+        </motion.div>
+
+        {/* Quick Highlights / Trust Badges */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
+        >
+          {[
+            {
+              icon: <Mic className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />,
+              title: "Voice-To-Text AI",
+              desc: "Real-time speech recognition"
+            },
+            {
+              icon: <Bot className="w-5 h-5 text-purple-600 dark:text-purple-400" />,
+              title: "Gemini 1.5 Power",
+              desc: "Tailored industry questions"
+            },
+            {
+              icon: <BarChart3 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />,
+              title: "Instant Scoring",
+              desc: "Deep comparative reports"
+            },
+            {
+              icon: <ShieldCheck className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />,
+              title: "100% Private",
+              desc: "No video recorded or stored"
+            }
+          ].map((item, idx) => (
+            <div
+              key={idx}
+              className="glass-card p-4 rounded-2xl text-left flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center mb-3">
+                {item.icon}
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900 dark:text-white text-sm">{item.title}</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Stats Strip */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="mt-14 pt-10 border-t border-slate-200 dark:border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center max-w-4xl mx-auto"
+        >
+          <div>
+            <div className="text-2xl sm:text-3xl font-black gradient-text-ai">50K+</div>
+            <div className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-1">Questions Generated</div>
+          </div>
+          <div>
+            <div className="text-2xl sm:text-3xl font-black gradient-text-emerald">94.8%</div>
+            <div className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-1">Success Rate</div>
+          </div>
+          <div>
+            <div className="text-2xl sm:text-3xl font-black gradient-text-ai">100+</div>
+            <div className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-1">Job Roles Supported</div>
+          </div>
+          <div>
+            <div className="text-2xl sm:text-3xl font-black gradient-text-amber">4.9 / 5.0</div>
+            <div className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-1">Candidate Rating</div>
+          </div>
+        </motion.div>
       </div>
     </div>
   )

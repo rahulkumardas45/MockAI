@@ -9,8 +9,16 @@ import {
   ListChecks,
   Trophy,
   Zap,
-  TrendingUp 
+  TrendingUp,
+  Sparkles,
+  ArrowRight,
+  Target,
+  Clock,
+  CheckCircle2,
+  FileText
 } from "lucide-react";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 import AddNewInterview from './_components/AddNewInterview'
 import InterviewList from './_components/InterviewList'
@@ -19,27 +27,14 @@ function Dashboard() {
   const { user } = useUser();
   const [interviewData, setInterviewData] = useState([]);
   const [isNewInterviewModalOpen, setIsNewInterviewModalOpen] = useState(false);
-  const [statsCards, setStatsCards] = useState([
-    {
-      icon: <ListChecks size={32} className="text-indigo-600" />,
-      title: "Total Interviews",
-      value: "0"
-    },
-    {
-      icon: <Trophy size={32} className="text-green-600" />,
-      title: "Best Score",
-      value: "N/A"
-    },
-    {
-      icon: <TrendingUp size={32} className="text-blue-600" />,
-      title: "Improvement Rate",
-      value: "0%"
-    }
-  ]);
+  const [stats, setStats] = useState({
+    totalInterviews: "0",
+    bestScore: "N/A",
+    improvementRate: "0%"
+  });
 
   const fetchInterviews = async () => {
     if (!user?.primaryEmailAddress?.emailAddress) {
-      toast.error("User email not found");
       return;
     }
 
@@ -61,53 +56,38 @@ function Dashboard() {
   
       const data = await response.json();
       
-      // Filter interviews specific to the current user's email
-      const userSpecificInterviews = data.userAnswers.filter(
+      const userSpecificInterviews = (data.userAnswers || []).filter(
         interview => interview.userEmail === user.primaryEmailAddress.emailAddress
       );
 
       setInterviewData(userSpecificInterviews);
 
-      // Calculate and update stats
-      const totalInterviews = userSpecificInterviews.length;
-      const bestScore = totalInterviews > 0 
-        ? Math.max(...userSpecificInterviews.map(item => parseInt(item.rating || '0')))
-        : 0;
-      const improvementRate = calculateImprovementRate(userSpecificInterviews);
+      const total = userSpecificInterviews.length;
+      const validRatings = userSpecificInterviews
+        .map(item => parseFloat(item.rating || '0'))
+        .filter(r => !isNaN(r) && r > 0);
 
-      setStatsCards([
-        {
-          ...statsCards[0],
-          value: totalInterviews.toString()
-        },
-        {
-          ...statsCards[1],
-          value: bestScore ? `${bestScore}/10` : 'N/A'
-        },
-        {
-          ...statsCards[2],
-          value: `${improvementRate}%`
-        }
-      ]);
+      const best = validRatings.length > 0 ? Math.max(...validRatings) : 0;
+      const improvement = calculateImprovementRate(validRatings);
 
-      if (totalInterviews > 0) {
-        toast.success(`Loaded ${totalInterviews} interview(s)`);
-      }
+      setStats({
+        totalInterviews: total.toString(),
+        bestScore: best ? `${best}/10` : 'N/A',
+        improvementRate: `${improvement}%`
+      });
 
     } catch (error) {
       console.error('Error fetching interviews:', error);
-      toast.error(error.message || 'Failed to fetch interviews');
     }
   };
 
-  const calculateImprovementRate = (interviews) => {
-    if (interviews.length <= 1) return 0;
-    
-    const scores = interviews
-      .map(interview => parseInt(interview.rating || '0'))
-      .sort((a, b) => a - b);
-    
-    const improvement = ((scores[scores.length - 1] - scores[0]) / scores[0]) * 100;
+  const calculateImprovementRate = (ratings) => {
+    if (ratings.length <= 1) return 0;
+    const sorted = [...ratings].sort((a, b) => a - b);
+    const first = sorted[0];
+    const last = sorted[sorted.length - 1];
+    if (first === 0) return 0;
+    const improvement = ((last - first) / first) * 100;
     return Math.round(improvement);
   };
 
@@ -118,73 +98,151 @@ function Dashboard() {
   }, [user]);
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      {/* User Greeting */}
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-8 space-y-4 sm:space-y-0">
-        <div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 flex items-center gap-3">
-            <Bot className="text-indigo-600" size={32} />
-            Dashboard
-          </h2>
-          <h3 className="text-lg sm:text-xl text-gray-600 mt-2">
-            Welcome, {user?.firstName || 'Interviewer'}
-          </h3>
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="text-gray-500 text-sm sm:text-base">
-            {user?.primaryEmailAddress?.emailAddress || 'Not logged in'}
-          </span>
-        </div>
-      </div>
+    <div className="space-y-8 pb-12">
+      {/* User Greeting & Header Banner */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="glass-panel rounded-3xl p-6 sm:p-8 relative overflow-hidden"
+      >
+        <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/10 dark:bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-        {statsCards.map((card) => (
-          <div 
-            key={card.title}
-            className="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center"
-          >
-            {card.icon}
-            <div className="ml-4">
-              <p className="text-xs sm:text-sm text-gray-500">{card.title}</p>
-              <p className="text-xl sm:text-2xl font-bold text-gray-800">{card.value}</p>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 text-xs font-semibold">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>AI Career Studio Online</span>
             </div>
+            <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Welcome back, {user?.firstName || 'Candidate'} 👋
+            </h1>
+            <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base max-w-2xl">
+              Optimize your resume for ATS screening and practice realistic voice & technical mock interviews.
+            </p>
           </div>
-        ))}
-      </div>
 
-      {/* Interview Section */}
-      <div className="bg-gray-50 p-4 sm:p-6 rounded-lg">
-        <div className="flex flex-col sm:flex-row items-center justify-between mb-6 space-y-4 sm:space-y-0">
-          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 flex items-center gap-3">
-            <Zap size={24} className="text-yellow-500" />
-            Create AI Mock Interview
-          </h2>
-          <button 
-            onClick={() => setIsNewInterviewModalOpen(true)}
-            className="flex items-center bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-colors"
-          >
-            <Plus size={20} className="mr-2" />
-            New Interview
-          </button>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="/dashboard/resume-analyzer"
+              className="px-5 py-3 rounded-2xl glass-card text-slate-700 dark:text-slate-200 hover:text-cyan-500 font-semibold text-sm border border-slate-200 dark:border-white/10 hover:border-cyan-500/40 transition-all flex items-center gap-2"
+            >
+              <FileText className="w-4 h-4 text-cyan-500" />
+              <span>ATS Resume Analyzer</span>
+            </Link>
+
+            <button
+              onClick={() => setIsNewInterviewModalOpen(true)}
+              className="relative group overflow-hidden rounded-2xl p-[1px] font-semibold text-sm transition-transform active:scale-95 shadow-xl shadow-cyan-500/15"
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 rounded-2xl animate-shimmer" />
+              <span className="relative flex items-center gap-2 px-5 py-3 rounded-[15px] bg-[#070B14] text-white transition-colors group-hover:bg-[#070B14]/80">
+                <Plus className="w-4 h-4 text-cyan-400" />
+                <span>New Mock Interview</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Analytics Stats Grid */}
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="grid grid-cols-1 sm:grid-cols-3 gap-5"
+      >
+        {/* Card 1 */}
+        <div className="glass-card rounded-2xl p-6 flex items-center gap-4 relative overflow-hidden">
+          <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-500 dark:text-cyan-400 flex-shrink-0">
+            <ListChecks size={28} />
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400">
+              Total Questions Answered
+            </p>
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-0.5">
+              {stats.totalInterviews}
+            </h3>
+          </div>
         </div>
 
-        {/* Add New Interview Component */}
-        <div className='grid grid-cols-1 sm:grid-cols-3 gap-6'>
-          <AddNewInterview 
-            isOpen={isNewInterviewModalOpen} 
-            onClose={() => setIsNewInterviewModalOpen(false)} 
-          />
+        {/* Card 2 */}
+        <div className="glass-card rounded-2xl p-6 flex items-center gap-4 relative overflow-hidden">
+          <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 dark:text-emerald-400 flex-shrink-0">
+            <Trophy size={28} />
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400">
+              Best AI Score
+            </p>
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-0.5">
+              {stats.bestScore}
+            </h3>
+          </div>
         </div>
-      </div>
 
-     {/* Interview History */}
-     <div className="mt-8">
-        <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-6">
-          Interview History
-        </h2>
-        <InterviewList interviews={interviewData} />
-      </div>
+        {/* Card 3 */}
+        <div className="glass-card rounded-2xl p-6 flex items-center gap-4 relative overflow-hidden">
+          <div className="w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-500 dark:text-purple-400 flex-shrink-0">
+            <TrendingUp size={28} />
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400">
+              Confidence & Growth
+            </p>
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-0.5">
+              {stats.improvementRate}
+            </h3>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Resume Analyzer Quick Promo Banner */}
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.15 }}
+        className="glass-card rounded-3xl p-6 sm:p-7 border-cyan-500/20 bg-gradient-to-r from-cyan-500/5 via-indigo-500/5 to-purple-500/5 flex flex-col sm:flex-row items-center justify-between gap-6"
+      >
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20 flex-shrink-0">
+            <FileText className="w-7 h-7" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+              Targeting a specific job position?
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mt-0.5">
+              Run your resume through our Semantic RAG ATS Analyzer to discover keyword gaps, rewrite bullet points with STAR metrics, and maximize interview callbacks.
+            </p>
+          </div>
+        </div>
+
+        <Link
+          href="/dashboard/resume-analyzer"
+          className="px-6 py-3 rounded-2xl bg-cyan-500 hover:bg-cyan-600 text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-cyan-500/25 transition-all flex-shrink-0"
+        >
+          <span>Evaluate Resume</span>
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </motion.div>
+
+      {/* Quick Launch & Create Trigger */}
+      <AddNewInterview 
+        isOpen={isNewInterviewModalOpen} 
+        onClose={() => setIsNewInterviewModalOpen(false)} 
+      />
+
+      {/* Previous Interviews List */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="space-y-4"
+      >
+        <InterviewList />
+      </motion.div>
     </div>
   );
 }
