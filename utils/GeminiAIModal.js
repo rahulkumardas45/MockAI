@@ -46,7 +46,7 @@ const CANDIDATE_MODELS = [
 ];
 
 export const model = genAI.getGenerativeModel({
-  model: CANDIDATE_MODELS[0],
+  model: CANDIDATE_MODELS[4],
 });
 
 /**
