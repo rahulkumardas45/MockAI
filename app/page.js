@@ -6,62 +6,66 @@ import {
   Code,
   PenTool,
   Target,
-  FileText,
   Globe,
   Award,
   Brain,
-  ArrowRight
+  ArrowRight,
+  Sparkles,
+  Search,
+  ExternalLink,
+  Layers,
+  Terminal,
+  Cpu
 } from 'lucide-react'
-
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import HeroSection from './dashboard/_components/HeroSection'
+import Link from 'next/link'
 
-const ResourceCard = ({ icon, title, description, links }) => (
+const ResourceCard = ({ icon, title, description, badge, links }) => (
   <motion.div
-    initial={{ opacity: 0, y: 40 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6 }}
-    viewport={{ once: true }}
+    layout
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, scale: 0.95 }}
+    transition={{ duration: 0.4 }}
     className="
-      group
-      relative
-      overflow-hidden
+      glass-card
       rounded-3xl
-      border
-      border-white/10
-      bg-white/5
-      backdrop-blur-xl
-      p-6
+      p-7
       flex
       flex-col
       h-full
+      relative
+      group
+      hover:-translate-y-2
       transition-all
-      duration-500
-      hover:-translate-y-3
-      hover:border-cyan-400/40
-      hover:shadow-2xl
-      hover:shadow-cyan-500/20
+      duration-300
     "
   >
-    {/* Glow Effect */}
-    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-purple-500/0 opacity-0 group-hover:opacity-100 transition duration-500"></div>
+    {/* Glow Highlight */}
+    <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-all pointer-events-none" />
 
-    <div className="relative z-10">
-      <div className="flex items-center mb-5">
-        <div className="w-14 h-14 rounded-2xl bg-cyan-500/20 flex items-center justify-center animate-float">
+    <div className="relative z-10 flex flex-col h-full">
+      <div className="flex items-start justify-between mb-5">
+        <div className="w-13 h-13 p-3.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
           {icon}
         </div>
-
-        <h3 className="ml-4 text-2xl font-bold text-white">
-          {title}
-        </h3>
+        {badge && (
+          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300">
+            {badge}
+          </span>
+        )}
       </div>
 
-      <p className="text-gray-300 mb-6 leading-relaxed flex-grow">
+      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">
+        {title}
+      </h3>
+
+      <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed flex-grow">
         {description}
       </p>
 
-      <div className="space-y-3">
+      <div className="space-y-2.5 pt-4 border-t border-slate-200 dark:border-white/5">
         {links.map((link, index) => (
           <a
             key={index}
@@ -69,27 +73,27 @@ const ResourceCard = ({ icon, title, description, links }) => (
             target="_blank"
             rel="noopener noreferrer"
             className="
-              group/link
               flex
               items-center
               justify-between
               rounded-xl
-              bg-white/5
+              bg-slate-50 dark:bg-white/5
               border
-              border-white/10
+              border-slate-200 dark:border-white/5
               px-4
-              py-3
-              hover:bg-cyan-500/10
-              hover:border-cyan-400/30
+              py-2.5
+              hover:bg-cyan-500/10 dark:hover:bg-cyan-500/15
+              hover:border-cyan-500/30
               transition-all
-              duration-300
+              duration-200
+              text-xs sm:text-sm
+              group/link
             "
           >
-            <span className="text-gray-200 group-hover/link:text-cyan-300">
+            <span className="text-slate-700 dark:text-slate-300 group-hover/link:text-cyan-600 dark:group-hover/link:text-cyan-300 font-medium">
               {link.name}
             </span>
-
-            <ArrowRight className="w-4 h-4 text-cyan-400 opacity-0 group-hover/link:opacity-100 transition-all duration-300" />
+            <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover/link:text-cyan-500 group-hover/link:translate-x-0.5 transition-all" />
           </a>
         ))}
       </div>
@@ -97,304 +101,234 @@ const ResourceCard = ({ icon, title, description, links }) => (
   </motion.div>
 )
 
-export default function ResourcesPage() {
+export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState('tech')
 
   const resourceCategories = {
     tech: {
+      label: 'Coding & DSA',
+      icon: Terminal,
       resources: [
         {
-          title: 'Coding Platforms',
-          description:
-            'Practice coding and algorithmic problem-solving with modern coding platforms.',
-          icon: <Code className="w-7 h-7 text-cyan-400" />,
+          title: 'Algorithmic Problem Solving',
+          badge: 'Top Tier',
+          description: 'Practice coding challenges, data structures, and algorithms commonly asked at FAANG/MAANG companies.',
+          icon: <Code className="w-6 h-6 text-cyan-600 dark:text-cyan-400" />,
           links: [
-            { name: 'GeeksforGeeks', url: 'https://www.geeksforgeeks.org/' },
-            { name: 'LeetCode', url: 'https://leetcode.com/' },
-            { name: 'HackerRank', url: 'https://www.hackerrank.com/' },
-            { name: 'CodeChef', url: 'https://www.codechef.com/' }
+            { name: 'LeetCode Problem Sets', url: 'https://leetcode.com/' },
+            { name: 'GeeksforGeeks DSA Hub', url: 'https://www.geeksforgeeks.org/' },
+            { name: 'HackerRank Interview Prep', url: 'https://www.hackerrank.com/' },
+            { name: 'CodeChef Competitions', url: 'https://www.codechef.com/' }
           ]
         },
         {
-          title: 'Technical Interview',
-          description:
-            'Master DSA, system design, and real-world interview preparation.',
-          icon: <Target className="w-7 h-7 text-cyan-400" />,
+          title: 'System Design & Architecture',
+          badge: 'High Value',
+          description: 'Master scalable backend system architectures, microservices, load balancing, caching, and database design.',
+          icon: <Cpu className="w-6 h-6 text-purple-600 dark:text-purple-400" />,
           links: [
-            {
-              name: 'InterviewBit',
-              url: 'https://www.interviewbit.com/'
-            },
-            {
-              name: 'System Design',
-              url: 'https://www.geeksforgeeks.org/system-design/getting-started-with-system-design/'
-            },
-            { name: 'Pramp', url: 'https://www.pramp.com/' }
+            { name: 'System Design Primer (GitHub)', url: 'https://github.com/donnemartin/system-design-primer' },
+            { name: 'GeeksforGeeks System Design', url: 'https://www.geeksforgeeks.org/system-design/getting-started-with-system-design/' },
+            { name: 'ByteByteGo Visual Architecture', url: 'https://bytebytego.com/' }
+          ]
+        },
+        {
+          title: 'Technical Interview Mastery',
+          badge: 'Interactive',
+          description: 'Structured topic-wise technical questions with step-by-step solutions for full-stack and specialized roles.',
+          icon: <Target className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />,
+          links: [
+            { name: 'InterviewBit Tracks', url: 'https://www.interviewbit.com/' },
+            { name: 'Pramp Peer Practice', url: 'https://www.pramp.com/' },
+            { name: 'NeetCode 150 Roadmap', url: 'https://neetcode.io/' }
           ]
         }
       ]
     },
 
     aptitude: {
+      label: 'Aptitude & Logic',
+      icon: PenTool,
       resources: [
         {
-          title: 'Aptitude & Reasoning',
-          description:
-            'Practice quantitative aptitude and logical reasoning questions.',
-          icon: <PenTool className="w-7 h-7 text-purple-400" />,
+          title: 'Quantitative Aptitude & Logic',
+          badge: 'Foundations',
+          description: 'Practice speed math, data interpretation, probability, and logical reasoning for campus placement tests.',
+          icon: <PenTool className="w-6 h-6 text-amber-600 dark:text-amber-400" />,
           links: [
-            { name: 'IndiaBix', url: 'https://www.indiabix.com/' },
-            {
-              name: 'Freshersworld',
-              url: 'https://www.freshersworld.com/aptitude-questions'
-            },
-            {
-              name: 'MathsGuru',
-              url: 'https://www.mathsguru.com/reasoning-questions/'
-            }
+            { name: 'IndiaBix Practice Tests', url: 'https://www.indiabix.com/' },
+            { name: 'Freshersworld Aptitude Questions', url: 'https://www.freshersworld.com/aptitude-questions' },
+            { name: 'MathsGuru Reasoning Sets', url: 'https://www.mathsguru.com/reasoning-questions/' }
           ]
         },
-
         {
-          title: 'Competitive Exams',
-          description:
-            'Resources for GATE, placement preparation, and problem solving.',
-          icon: <Award className="w-7 h-7 text-pink-400" />,
+          title: 'Competitive Exams & Assessments',
+          badge: 'GATE / Placement',
+          description: 'Curated previous year questions and mock test banks for placement entrance examinations.',
+          icon: <Award className="w-6 h-6 text-pink-600 dark:text-pink-400" />,
           links: [
-            { name: 'GATE Overflow', url: 'https://gateoverflow.in/' },
-            { name: 'Career Power', url: 'https://careerpower.in/' },
-            { name: 'Brilliant', url: 'https://brilliant.org/' }
+            { name: 'GATE Overflow Community', url: 'https://gateoverflow.in/' },
+            { name: 'Career Power Mock Tests', url: 'https://careerpower.in/' },
+            { name: 'Brilliant Problem Solving', url: 'https://brilliant.org/' }
           ]
         }
       ]
     },
 
     interview: {
+      label: 'Career & Guides',
+      icon: Book,
       resources: [
         {
-          title: 'Interview Guides',
-          description:
-            'Comprehensive interview preparation and career guidance.',
-          icon: <Book className="w-7 h-7 text-green-400" />,
+          title: 'Company Specific Guides',
+          badge: 'Company Insights',
+          description: 'Read real candidate interview experiences, salary insights, and typical interview rounds across top firms.',
+          icon: <Book className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
           links: [
-            {
-              name: 'AmbitionBox',
-              url: 'https://www.ambitionbox.com/'
-            },
-            {
-              name: 'InterviewStreet',
-              url: 'https://www.interviewstreet.com/'
-            },
-            {
-              name: 'Shiksha',
-              url: 'https://www.shiksha.com/'
-            }
+            { name: 'AmbitionBox Experiences', url: 'https://www.ambitionbox.com/' },
+            { name: 'Glassdoor Interview Reviews', url: 'https://www.glassdoor.com/' },
+            { name: 'Shiksha Career Guidance', url: 'https://www.shiksha.com/' }
           ]
         },
-
         {
-          title: 'Online Learning',
-          description:
-            'Premium online learning resources and certification platforms.',
-          icon: <Globe className="w-7 h-7 text-blue-400" />,
+          title: 'Specialized Courses & Certifications',
+          badge: 'Learning Paths',
+          description: 'Deepen core engineering topics with industry recognized courses and hands-on specializations.',
+          icon: <Globe className="w-6 h-6 text-cyan-600 dark:text-cyan-400" />,
           links: [
-            { name: 'Coursera', url: 'https://www.coursera.org/' },
-            { name: 'edX', url: 'https://www.edx.org/' },
-            { name: 'Udacity', url: 'https://www.udacity.com/' }
+            { name: 'Coursera Computer Science', url: 'https://www.coursera.org/' },
+            { name: 'edX Professional Programs', url: 'https://www.edx.org/' },
+            { name: 'freeCodeCamp Full Stack', url: 'https://www.freecodecamp.org/' }
           ]
         }
       ]
     }
   }
 
+  const currentResources = resourceCategories[activeCategory]?.resources || []
+
   return (
-    <>
+    <div className="relative">
+      {/* Hero Section */}
       <HeroSection />
 
-      <div className="relative min-h-screen overflow-hidden bg-[#0B1120] text-white py-20">
+      {/* Main Preparation Hub Section */}
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-700 dark:text-cyan-300 text-xs font-semibold uppercase tracking-wider mb-4">
+            <Sparkles className="w-3.5 h-3.5" />
+            Curated Learning Ecosystem
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Comprehensive Interview Prep Hub
+          </h2>
+          <p className="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-400">
+            Handpicked study material, practice platforms, and architectural guides to complement your AI mock sessions.
+          </p>
+        </div>
 
-        {/* Background Glow */}
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
-
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div> 
-        <div
-  className="
-    absolute
-    inset-0
-    opacity-20
-    bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px)]
-    bg-[size:50px_50px]
-  "
-></div>
-
-       <div className="relative z-10 w-full px-6 md:px-10 lg:px-16">
-
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-20"
-          >
-            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-sm mb-6">
-              ✨ Modern AI Learning Platform
-            </div>
-
-            <h1 className="
-              text-5xl
-              md:text-7xl
-              font-black
-              leading-tight
-              bg-gradient-to-r
-              from-cyan-400
-              via-blue-500
-              to-purple-500
-              bg-clip-text
-              text-transparent
-            ">
-              Interview Preparation
-              <br />
-              Resources Hub
-            </h1>
-
-            <p className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto mt-8 leading-relaxed">
-              Discover premium learning resources, coding platforms,
-              aptitude preparation, and AI-powered interview tools.
-            </p>
-          </motion.div>
-
-          {/* Category Tabs */}
-          <div className="flex flex-wrap justify-center gap-5 mb-16">
-            {Object.keys(resourceCategories).map((category) => (
+        {/* Category Selector Tabs */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
+          {Object.entries(resourceCategories).map(([key, item]) => {
+            const Icon = item.icon
+            const isActive = activeCategory === key
+            return (
               <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
+                key={key}
+                onClick={() => setActiveCategory(key)}
                 className={`
-                  px-7
-                  py-3
-                  rounded-2xl
-                  font-semibold
-                  backdrop-blur-xl
-                  border
-                  transition-all
-                  duration-300
-                  hover:scale-105
+                  flex items-center gap-2.5 px-6 py-3 rounded-2xl font-semibold text-sm transition-all duration-300
                   ${
-                    activeCategory === category
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white border-cyan-400 shadow-lg shadow-cyan-500/30'
-                      : 'bg-white/5 text-gray-300 border-white/10 hover:bg-white/10'
+                    isActive
+                      ? 'bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-lg shadow-cyan-500/25 scale-105'
+                      : 'glass-card text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:border-cyan-500/40 shadow-sm'
                   }
                 `}
               >
-                {category.charAt(0).toUpperCase() + category.slice(1)}
+                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-cyan-600 dark:text-cyan-400'}`} />
+                <span>{item.label}</span>
               </button>
-            ))}
-          </div>
-
-          {/* Cards */}
-          <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-8">
-            {resourceCategories[activeCategory].resources.map(
-              (resource, index) => (
-                <ResourceCard key={index} {...resource} />
-              )
-            )}
-          </div>
-
-          {/* Extra Section */}
-          <div className="
-            mt-24
-            rounded-3xl
-            border
-            border-white/10
-            bg-white/5
-            backdrop-blur-2xl
-            overflow-hidden
-            shadow-2xl
-          ">
-
-            <div className="p-10 md:p-16 text-center">
-              <h2 className="text-4xl md:text-5xl font-black mb-6 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-                Level Up Your Career
-              </h2>
-
-              <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-                Explore additional tools and AI-powered resources
-                to improve your placement preparation journey.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8 p-8 pt-0">
-
-              {[
-                {
-                  title: 'Resume Builder',
-                  description: 'Create stunning modern resumes',
-                  icon: <Book className="w-14 h-14 text-cyan-400 mx-auto mb-5" />,
-                  url: 'https://www.canva.com/resumes/templates/'
-                },
-
-                {
-                  title: 'Mock Interviews',
-                  description: 'AI-powered interview simulations',
-                  icon: <Target className="w-14 h-14 text-green-400 mx-auto mb-5" />,
-                  url: '/dashboard'
-                },
-
-                {
-                  title: 'Skill Assessment',
-                  description: 'Analyze and improve your skills',
-                  icon: <Brain className="w-14 h-14 text-purple-400 mx-auto mb-5" />,
-                  url: 'https://www.skillvalue.com/'
-                }
-              ].map((item, index) => (
-                <div
-                  key={index}
-                  className="
-                    group
-                    rounded-3xl
-                    border
-                    border-white/10
-                    bg-white/5
-                    p-8
-                    text-center
-                    transition-all
-                    duration-500
-                    hover:-translate-y-3
-                    hover:border-cyan-400/30
-                    hover:shadow-xl
-                    hover:shadow-cyan-500/10
-                  "
-                >
-                  {item.icon}
-
-                  <h3 className="text-2xl font-bold text-white mb-4">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-gray-400 mb-6">
-                    {item.description}
-                  </p>
-
-                  <a
-                    href={item.url}
-                    className="
-                      inline-flex
-                      items-center
-                      gap-2
-                      text-cyan-400
-                      hover:text-cyan-300
-                      transition-all
-                    "
-                  >
-                    Explore
-                    <ArrowRight className="w-5 h-5" />
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
+            )
+          })}
         </div>
-      </div>
-    </>
+
+        {/* Resources Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <AnimatePresence mode="popLayout">
+            {currentResources.map((resource, index) => (
+              <ResourceCard key={resource.title + index} {...resource} />
+            ))}
+          </AnimatePresence>
+        </div>
+
+        {/* Level Up Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-20 rounded-3xl glass-panel p-8 sm:p-12 relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-purple-500/10 to-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 text-center max-w-2xl mx-auto mb-12">
+            <h3 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">
+              Ready to Test Your Real-Time Readiness?
+            </h3>
+            <p className="mt-3 text-slate-600 dark:text-slate-300 text-sm sm:text-base">
+              Create an AI interview simulation in under 30 seconds. Choose your target role, specify your tech stack, and experience full speech grading.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+            {[
+              {
+                title: 'Step 1: Configure Role',
+                desc: 'Pick your position, tech stack, and senior or junior experience level.',
+                icon: Layers,
+                color: 'text-cyan-600 dark:text-cyan-400'
+              },
+              {
+                title: 'Step 2: Practice with Speech',
+                desc: 'Speak naturally into your mic while the AI records and analyzes your voice.',
+                icon: Brain,
+                color: 'text-purple-600 dark:text-purple-400'
+              },
+              {
+                title: 'Step 3: Executive Feedback',
+                desc: 'Get a 1-10 rating, model answers, and constructive critique immediately.',
+                icon: Award,
+                color: 'text-emerald-600 dark:text-emerald-400'
+              }
+            ].map((step, idx) => {
+              const Icon = step.icon
+              return (
+                <div
+                  key={idx}
+                  className="glass-card p-6 rounded-2xl text-center flex flex-col items-center shadow-sm"
+                >
+                  <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center mb-4">
+                    <Icon className={`w-6 h-6 ${step.color}`} />
+                  </div>
+                  <h4 className="text-base font-bold text-slate-900 dark:text-white mb-2">{step.title}</h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{step.desc}</p>
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="mt-10 text-center relative z-10">
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 text-white font-bold text-sm shadow-xl shadow-cyan-500/25 hover:scale-105 transition-all"
+            >
+              <span>Launch Mock Interview Dashboard</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </motion.div>
+      </section>
+    </div>
   )
 }

@@ -1,40 +1,129 @@
-"use client"
-import { Lightbulb, Volume2 } from 'lucide-react'
-import React from 'react'
-const QuestionsSection = ({mockInterviewQuestion,activeQuestionIndex}) => {
-  console.log("🚀 ~ file: QuestionsSection.jsx:4 ~ QuestionsSection ~ mockInterviewQuestion:", mockInterviewQuestion);
-  
-  const textToSpeach=(text)=>{
-if('speechSynthesis' in window){
+"use client";
+
+import { Lightbulb, Volume2, VolumeX, Sparkles, HelpCircle } from "lucide-react";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+
+const QuestionsSection = ({ mockInterviewQuestion, activeQuestionIndex, onSelectIndex }) => {
+  const [isSpeaking, setIsSpeaking] = useState(false);
+
+  const textToSpeech = (text) => {
+    if (!('speechSynthesis' in window)) {
+      alert("Sorry, your browser does not support text to speech");
+      return;
+    }
+
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+      return;
+    }
+
     const speech = new SpeechSynthesisUtterance(text);
-    window.speechSynthesis.speak(speech)
-}else{
-    alert("Sorry, your browser does not support text to speech")
-}
-  }
+    speech.rate = 0.95;
+    speech.pitch = 1;
+    
+    speech.onstart = () => setIsSpeaking(true);
+    speech.onend = () => setIsSpeaking(false);
+    speech.onerror = () => setIsSpeaking(false);
 
+    window.speechSynthesis.speak(speech);
+  };
 
+  const currentQuestion = mockInterviewQuestion?.[activeQuestionIndex]?.question || "";
 
-  return mockInterviewQuestion && (
-    <div className='p-5 border rounded-lg my-10'>
-        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
-            {mockInterviewQuestion && mockInterviewQuestion.map((question,index)=>(
-                <h2 className={`p-2 bg-secondary rounded-full text-xs md:text-sm text-center cursor-pointer ${activeQuestionIndex == index && 'bg-blue-700 text-white'}`}>Question #{index+1}</h2>
-            ))}
+  return (
+    <div className="glass-panel rounded-3xl p-6 sm:p-7 space-y-6 h-full flex flex-col justify-between">
+      <div className="space-y-6">
+        {/* Question Stepper Pills */}
+        <div>
+          <span className="text-xs uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400 block mb-3">
+            Question Selector
+          </span>
+          <div className="flex flex-wrap gap-2">
+            {mockInterviewQuestion &&
+              mockInterviewQuestion.map((question, index) => {
+                const isActive = activeQuestionIndex === index;
+                return (
+                  <button
+                    key={index}
+                    onClick={() => onSelectIndex && onSelectIndex(index)}
+                    className={`
+                      px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200
+                      ${
+                        isActive
+                          ? "bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md shadow-cyan-500/20 scale-105"
+                          : "bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-white/10"
+                      }
+                    `}
+                  >
+                    Q#{index + 1}
+                  </button>
+                );
+              })}
+          </div>
         </div>
-            <h2 className='my-5 text-md md:text-lg'>
-                {mockInterviewQuestion[activeQuestionIndex]?.question}
-            </h2>
-            <Volume2 className='cursor-pointer' onClick={()=>textToSpeach(mockInterviewQuestion[activeQuestionIndex]?.question)}/>
-            <div className='border rounded-lg p-5 bg-blue-100 mt-20'>
-                <h2 className='flex gap-2 items-center text-primary'>
-                    <Lightbulb/>
-                    <strong>Note:</strong>
-                </h2>
-                <h2 className='text-sm text-primary my-2'>Enable Video Web Cam and Microphone to Start your AI Generated Mock Interview, It Has 5 questions which you can answer and at last you will get the report on the basis of your answer . NOTE: We never record your video, Web cam access you can disable at any time if you want</h2>
-            </div>
-    </div>
-  )
-}
 
-export default QuestionsSection
+        {/* Current Question Box */}
+        <motion.div
+          key={activeQuestionIndex}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+          className="space-y-4 pt-2"
+        >
+          <div className="flex items-center justify-between">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
+              <HelpCircle className="w-3.5 h-3.5" />
+              <span>Prompt #{activeQuestionIndex + 1}</span>
+            </span>
+
+            {/* Audio TTS Button */}
+            <button
+              onClick={() => textToSpeech(currentQuestion)}
+              className={`
+                flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-all
+                ${
+                  isSpeaking
+                    ? "bg-cyan-500/20 border-cyan-500 text-cyan-500 dark:text-cyan-300 animate-pulse"
+                    : "bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-cyan-500/40"
+                }
+              `}
+              title="Listen to Question"
+            >
+              {isSpeaking ? (
+                <>
+                  <VolumeX className="w-4 h-4 text-cyan-500" />
+                  <span>Stop Audio</span>
+                </>
+              ) : (
+                <>
+                  <Volume2 className="w-4 h-4 text-cyan-500" />
+                  <span>Listen to Question</span>
+                </>
+              )}
+            </button>
+          </div>
+
+          <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white leading-relaxed">
+            {currentQuestion}
+          </h3>
+        </motion.div>
+      </div>
+
+      {/* Pro Tip Card */}
+      <div className="glass-card rounded-2xl p-5 border-cyan-500/20 bg-cyan-500/5 space-y-2 mt-6">
+        <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 font-bold text-xs">
+          <Lightbulb className="w-4 h-4" />
+          <span>Pro Interview Tip</span>
+        </div>
+        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+          Structure your answer using the <strong>STAR method</strong> (Situation, Task, Action, Result). 
+          Speak clearly and state trade-offs whenever discussing architecture or algorithms.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default QuestionsSection;

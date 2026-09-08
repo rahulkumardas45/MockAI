@@ -1,11 +1,11 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-const isProtectedRoute = createRouteMatcher(['/dashboard(.*)']) // Add more routes as needed
+// Protect specific interview preparation routes while allowing public trial of resume analyzer & landing pages
+const isProtectedRoute = createRouteMatcher(['/dashboard/interview(.*)'])
 
 export default clerkMiddleware((auth, req) => {
   if (isProtectedRoute(req)) auth().protect()
-}) // Protect all routes by default 
-
+})
 
 export const config = {
   matcher: [
