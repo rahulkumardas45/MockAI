@@ -11,10 +11,11 @@ import {
   ShieldCheck, 
   CheckCircle2, 
   Zap, 
-  Play,
-  Award,
-  Users,
-  BarChart3
+  Play, 
+  Award, 
+  Users, 
+  BarChart3,
+  FileText
 } from 'lucide-react'
 
 export default function HeroSection() {
@@ -33,7 +34,7 @@ export default function HeroSection() {
         >
           <span className="flex h-2 w-2 rounded-full bg-cyan-500 dark:bg-cyan-400 animate-ping" />
           <Sparkles className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
-          <span>Next-Gen AI Interview Simulation Engine 2.0</span>
+          <span>Next-Gen AI Interview Simulation & ATS Resume Engine</span>
         </motion.div>
 
         {/* Main Heading */}
@@ -57,7 +58,7 @@ export default function HeroSection() {
           className="mt-6 text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed font-normal"
         >
           Experience realistic, real-time mock interviews customized to your job role and tech stack. 
-          Practice speaking, receive instant AI scoring, and unlock deep actionable feedback.
+          Audit your resume with our RAG-powered ATS analyzer and unlock deep actionable feedback.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -80,11 +81,19 @@ export default function HeroSection() {
           </Link>
 
           <Link
+            href="/dashboard/resume-analyzer"
+            className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl glass-card text-slate-800 dark:text-slate-200 font-semibold text-base hover:text-cyan-600 dark:hover:text-white hover:border-cyan-500/40 transition-all shadow-sm"
+          >
+            <FileText className="w-5 h-5 text-cyan-500" />
+            <span>ATS Resume Analyzer</span>
+          </Link>
+
+          <Link
             href="/how-it-works"
             className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl glass-card text-slate-800 dark:text-slate-200 font-semibold text-base hover:text-cyan-600 dark:hover:text-white hover:border-cyan-500/40 transition-all shadow-sm"
           >
             <Play className="w-4 h-4 text-purple-600 dark:text-purple-400 fill-purple-600/20 dark:fill-purple-400/30" />
-            <span>See How It Works</span>
+            <span>How It Works</span>
           </Link>
         </motion.div>
 
@@ -103,8 +112,8 @@ export default function HeroSection() {
             },
             {
               icon: <Bot className="w-5 h-5 text-purple-600 dark:text-purple-400" />,
-              title: "Gemini 1.5 Power",
-              desc: "Tailored industry questions"
+              title: "Gemini AI Engine",
+              desc: "Deep semantic reasoning"
             },
             {
               icon: <BarChart3 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />,

@@ -205,11 +205,12 @@ Return strictly a valid JSON object with NO markdown formatting around it (or cl
   ]
 }`;
 
+  // generate response from ai model
   const responseText = await generateAIContent(ragPrompt, {
     temperature: 0.2,
     responseMimeType: "application/json",
   });
-  
+
   const cleaned = responseText.replace(/```json\n?|```/g, "").trim();
   let parsed;
   try {

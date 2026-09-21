@@ -34,19 +34,19 @@ export const safetySettings = [
   },
 ];
 
-// Supported Gemini models with prioritized fallback hierarchy
+// Supported Gemini models with prioritized fallback hierarchy (active and verified)
 const CANDIDATE_MODELS = [
   "gemini-2.5-flash",
-  "gemini-flash-latest",
-  "gemini-2.5-flash-lite",
-  "gemini-2.5-pro",
   "gemini-3.7-flash",
+  "gemini-3.8-flash",
+  "gemini-2.5-pro",
+  "gemini-2.5-flash-lite",
+  "gemini-flash-latest",
   "gemini-pro-latest",
-  "gemini-1.5-flash",
 ];
 
 export const model = genAI.getGenerativeModel({
-  model: CANDIDATE_MODELS[4],
+  model: CANDIDATE_MODELS[0],
 });
 
 /**

@@ -13,25 +13,35 @@ export const dynamic = "force-dynamic";
 async function extractPDF(buffer) {
   try {
     const pdfModule = await import("pdf-parse");
+    const PDFClass = pdfModule.PDFParse || pdfModule.default?.PDFParse;
     
-    // Check if pdf-parse v2 PDFParse class is available
-    if (pdfModule.PDFParse) {
-      const parser = new pdfModule.PDFParse({ data: buffer });
+    if (PDFClass) {
+      const parser = new PDFClass({ data: buffer });
       const result = await parser.getText();
       if (typeof parser.destroy === "function") {
-        await parser.destroy();
+        try {
+          await parser.destroy();
+        } catch (_) {}
       }
-      return result.text || "";
+      const text = result?.text || "";
+      if (!text.trim()) {
+        throw new Error("PDF contains no selectable text (may be an image or scanned document).");
+      }
+      return text;
     } else if (typeof pdfModule.default === "function") {
-      // pdf-parse v1 style
       const data = await pdfModule.default(buffer);
-      return data.text || "";
+      const text = data?.text || "";
+      if (!text.trim()) {
+        throw new Error("PDF contains no selectable text (may be an image or scanned document).");
+      }
+      return text;
     } else {
-      throw new Error("PDFParse class not found in pdf-parse module.");
+      throw new Error("PDF parser class not found in module.");
     }
   } catch (err) {
-    console.error("PDF parse error:", err);
+    console.error("PDF parse error:", err?.message || err);
     throw new Error(
+      err.message ||
       "Could not extract text from the PDF. Make sure it is a text-based PDF (not a scanned image or protected) or paste the resume text directly."
     );
   }

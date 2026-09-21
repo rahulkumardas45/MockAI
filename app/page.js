@@ -15,7 +15,11 @@ import {
   ExternalLink,
   Layers,
   Terminal,
-  Cpu
+  Cpu,
+  FileText,
+  CheckCircle2,
+  Shield,
+  Zap
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import HeroSection from './dashboard/_components/HeroSection'
@@ -261,6 +265,117 @@ export default function HomePage() {
             ))}
           </AnimatePresence>
         </div>
+
+        {/* ── Featured Showcase: RAG ATS Resume Analyzer ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-20 rounded-3xl glass-card border border-cyan-500/30 p-8 sm:p-12 relative overflow-hidden bg-gradient-to-br from-cyan-500/5 via-indigo-500/5 to-purple-500/5"
+        >
+          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-cyan-500/15 via-purple-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-7 space-y-5">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-700 dark:text-cyan-300 text-xs font-bold uppercase tracking-wider">
+                <Zap className="w-3.5 h-3.5" />
+                Featured Capability
+              </div>
+              <h3 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+                RAG-Powered ATS Resume Analyzer & Optimizer
+              </h3>
+              <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
+                Before your interview round, ensure your resume makes it past modern Applicant Tracking Systems. 
+                Our semantic RAG engine parses your resume, benchmarks it against target job descriptions, computes an objective compatibility score (0-100), and rewrites weak bullet points using the STAR method.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                {[
+                  { text: "Semantic Section Chunking & Tech Profiling", icon: Layers },
+                  { text: "Dynamic Keyword Match & Gap Matrix", icon: CheckCircle2 },
+                  { text: "STAR-Method Bullet Point Rewriter", icon: Sparkles },
+                  { text: "ATS Formatting & Compliance Checklist", icon: Shield }
+                ].map((item, idx) => {
+                  const Icon = item.icon
+                  return (
+                    <div key={idx} className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+                      <div className="w-6 h-6 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-600 dark:text-cyan-400 flex-shrink-0">
+                        <Icon className="w-3.5 h-3.5" />
+                      </div>
+                      <span className="font-medium">{item.text}</span>
+                    </div>
+                  )
+                })}
+              </div>
+
+              <div className="pt-4">
+                <Link
+                  href="/dashboard/resume-analyzer"
+                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-bold text-sm shadow-xl shadow-cyan-500/25 hover:scale-105 transition-all"
+                >
+                  <FileText className="w-4 h-4" />
+                  <span>Audit Your Resume Now</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Visual Metric Preview */}
+            <div className="lg:col-span-5">
+              <div className="glass-panel p-6 rounded-2xl space-y-4 border border-slate-200 dark:border-white/10 shadow-xl">
+                <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">ATS Match Analysis</span>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-full text-xs font-extrabold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                    84 / 100 Score
+                  </span>
+                </div>
+
+                <div className="space-y-2.5 text-xs">
+                  <div>
+                    <div className="flex justify-between mb-1 text-slate-600 dark:text-slate-400 font-medium">
+                      <span>Keyword Relevance</span>
+                      <span className="font-bold text-slate-900 dark:text-white">88%</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                      <div className="h-full bg-cyan-500 rounded-full w-[88%]" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex justify-between mb-1 text-slate-600 dark:text-slate-400 font-medium">
+                      <span>Skills Alignment</span>
+                      <span className="font-bold text-slate-900 dark:text-white">92%</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                      <div className="h-full bg-indigo-500 rounded-full w-[92%]" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex justify-between mb-1 text-slate-600 dark:text-slate-400 font-medium">
+                      <span>ATS Formatting Score</span>
+                      <span className="font-bold text-slate-900 dark:text-white">95%</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                      <div className="h-full bg-emerald-500 rounded-full w-[95%]" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-xs">
+                  <p className="font-bold text-slate-900 dark:text-white mb-1">AI Recommendation:</p>
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                    Add quantified metrics to your cloud deployments and mirror 3 missing core skills (Docker, Redis, CI/CD).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
         {/* Level Up Banner */}
         <motion.div
