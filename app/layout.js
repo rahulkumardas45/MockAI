@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "./dashboard/_components/Footer";
 import Header from "./dashboard/_components/Header";
+import AIChatBot from "@/components/ai-chatbot/AIChatBot";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -113,6 +114,7 @@ export default function RootLayout({ children }) {
               {children}
             </main>
             
+            <AIChatBot />
             <Footer />
             <Toaster richColors position="top-right" />
           </ThemeProvider>
